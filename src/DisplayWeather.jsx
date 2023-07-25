@@ -4,9 +4,15 @@ import countries from 'i18n-iso-countries'
 import enLocale from 'i18n-iso-countries/langs/en.json'
 countries.registerLocale(enLocale)
 
-const Weather = ({ weatherByCity, round }) => {
+const Weather = ({ weatherByCity }) => {
+  const round = (num) => {
+    return Math.round(num)
+  }
 
   const { timezone, name } = weatherByCity || {} // timezone is in seconds
+  const {temp, temp_min, temp_max} = weatherByCity.main || {}
+  const { country, sunrise, sunset } = weatherByCity.sys || {}
+  const { description, icon } = weatherByCity.weather ? weatherByCity.weather[0] : {}
 
   const bstOffset = new Date().getTimezoneOffset() * 60 // BST offset in seconds
   const currentUTCTime = Math.floor((new Date().getTime() / 1000) + bstOffset) // UTC in seconds
@@ -14,9 +20,6 @@ const Weather = ({ weatherByCity, round }) => {
   const timeAtLocation = new Date(utcAtLocation * 1000).toLocaleTimeString('en-GB', {timeStyle: 'short'}) // time converted to local time
 
 
-  const {temp, temp_min, temp_max} = weatherByCity.main || {}
-  const { country, sunrise, sunset } = weatherByCity.sys || {}
-  const { description, icon } = weatherByCity.weather ? weatherByCity.weather[0] : {}
 
   const sunriseTime = new Date((sunrise + timezone) * 1000).toLocaleTimeString('en-GB', {timeStyle: 'short'})
   const sunsetTime = new Date((sunset + timezone) * 1000).toLocaleTimeString('en-GB', {timeStyle: 'short'})

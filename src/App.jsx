@@ -1,5 +1,5 @@
 import Header from './Header'
-import Weather from './Weather'
+import DisplayWeather from './DisplayWeather'
 import { useState } from 'react'
 
 
@@ -52,12 +52,6 @@ function App() {
       }
     }
 
-
-
-  const round = (num) => {
-    return Math.round(num)
-  }
-
   const cityNotFound = () => {
     if (weatherByCity.cod === '404') {
       return <p className="text-center mt-2">Sorry, cannot locate that city. Please try again.</p>
@@ -99,10 +93,8 @@ function App() {
           {hasError()}
           {cityNotFound()}
             { weatherByCity.main && (
-
-              <Weather
+              <DisplayWeather
               weatherByCity={weatherByCity}
-              round={round}
               />
             )}
             {/* {`API calls: ${apiCalls}`} */}
