@@ -1,5 +1,5 @@
-import Header from './Header'
-import DisplayWeather from './DisplayWeather'
+import Header from './components/Header'
+import DisplayWeather from './components/DisplayWeather'
 import { useState } from 'react'
 
 
@@ -15,7 +15,6 @@ function App() {
   const [intro, setIntro] = useState(true)
   const [weatherByCity, setWeatherByCity] = useState({})
   const [location, setLocation] = useState('')
-  // const [apiCalls, setApiCalls] = useState(0)
   const [error, setError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -28,20 +27,12 @@ function App() {
       getWeatherByCity()
     }
   }
-//   useEffect(() => {
-//   const interval = setInterval(() => {
-//     console.log('This will run every second!');
-//   }, 1000);
-//   return () => clearInterval(interval);
-// }, []);
-
 
     const getWeatherByCity = async () => {
       try {
         setIsLoading(true)
         const response = await fetch(url)
         const data = await response.json()
-        // setApiCalls(prev => prev + 1)
         setWeatherByCity(data)
         setIntro(false)
         setIsLoading(false)
@@ -52,23 +43,9 @@ function App() {
       }
     }
 
-  const cityNotFound = () => {
-    if (weatherByCity.cod === '404') {
-      return <p className="text-center mt-2">Sorry, cannot locate that city. Please try again.</p>
-    }
-  }
-
-  const loadingContent = () => {
-    if (weatherByCity && isLoading) {
-      return <p className="text-center">Loading...</p>
-    }
-  }
-
-  const hasError = () => {
-    if (error) {
-      return <p className="text-center">Sorry, something went wrong. Please try again.</p>
-    }
-  }
+  const cityNotFound = weatherByCity.cod === '404' ? <p className="text-center mt-2">Sorry, cannot locate that city. Please try again.</p> : null
+  const loadingContent = weatherByCity && isLoading ? <p className="text-center">Loading...</p> : null
+  const hasError = error ? <p className="text-center">Sorry, something went wrong. Please try again.</p> : null
 
   return (
     <>
@@ -81,20 +58,21 @@ function App() {
             <div>
               <input
                 type="text"
+                role="textbox"
                 placeholder="Enter a city, eg London..."
                 onChange={event => setLocation(event.target.value)}
                 value={location}
                 className="search-input"
                 />
-                <label className="sr-only">Location</label>
+              <label className="sr-only">Location</label>
             </div>
           </form>
-          {loadingContent()}
-          {hasError()}
-          {cityNotFound()}
+          {loadingContent}
+          {hasError}
+          {cityNotFound}
             { weatherByCity.main && (
               <DisplayWeather
-              weatherByCity={weatherByCity}
+                weatherByCity={weatherByCity}
               />
             )}
             {/* {`API calls: ${apiCalls}`} */}
