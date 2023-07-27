@@ -10,9 +10,9 @@ const Weather = ({ weatherByCity }) => {
   }
 
   const { timezone, name } = weatherByCity || {} // timezone is in seconds
-  const {temp, temp_min, temp_max} = weatherByCity.main || {}
-  const { country, sunrise, sunset } = weatherByCity.sys || {}
-  const { description, icon } = weatherByCity.weather ? weatherByCity.weather[0] : {}
+  const {temp, temp_min, temp_max} = weatherByCity?.main || {}
+  const { country, sunrise, sunset } = weatherByCity?.sys || {}
+  const { description, icon } = weatherByCity?.weather ? weatherByCity.weather[0] : {}
 
   const bstOffset = new Date().getTimezoneOffset() * 60 // BST offset in seconds
   const currentUTCTime = Math.floor((new Date().getTime() / 1000) + bstOffset) // UTC in seconds
