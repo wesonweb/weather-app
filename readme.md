@@ -15,3 +15,5 @@ You will need an API key to run this app. You can download one from [openweather
 ## Using the app
 
 Enter the location in the search bar and press the enter key. The location's weather will be displayed.
+
+A working version of this can be found at [wes-weather-app](https://wes-weather-app.surge.sh/)
